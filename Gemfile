@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+gem 'devise', '~> 3.5', '>= 3.5.6'
+
+gem 'carrierwave', '~> 0.11.0'
+gem 'carrierwave-dropbox', '~> 1.2', '>= 1.2.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
