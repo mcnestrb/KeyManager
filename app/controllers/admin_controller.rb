@@ -18,17 +18,19 @@ class AdminController < ApplicationController
     end
 
     def add_mem
-    	user = User.find_by(params[:email])
+    	mem_params = params.require(:member).permit(:email, :group)
+    	user = User.find_by email: mem_params[:email]
     	if(user)
-    		@mem = GroupUser.new(params[:group], user)
+    		@mem = GroupUser.new(user_id: user.id, group_id: mem_params[:group])
     		@mem.save
+    		redirect_to admin_group_path(mem_params[:group])
+    	else
+    		redirect_to admin_group_path(mem_params[:group]), notice: "That user doesn't exist"
     	end
-    	
-    	redirect_to admin_group_path(params[:group])
     end
 
     def kick_mem
-    	@mem = Group.find(params)
+    	@mem = GroupUser.find_by(user_id: params[:user], group_id: params[:group])
     	@mem.destroy 
 
     	redirect_to admin_group_path(params[:group])
@@ -38,6 +40,5 @@ class AdminController < ApplicationController
     	def group_params
     		params.require(:group).permit(:name)
     	end
-
 
 end
