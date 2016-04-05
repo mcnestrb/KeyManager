@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
   root to: "home#index"
 
-  get "/group/:id", to: "group#index", as: "group"
+  get "/group/:id", to: "home#group", as: "group"
 
   get "/admin", to: "admin#index"
   post "/admin", to: "admin#create", as: "new_group"
