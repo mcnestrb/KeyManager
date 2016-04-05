@@ -1,4 +1,4 @@
-class GroupMem < ActiveRecord::Base
+class GroupUser < ActiveRecord::Base
     belongs_to :group
     belongs_to :user
 end

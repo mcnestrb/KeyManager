@@ -13,19 +13,25 @@ class AdminController < ApplicationController
     end
 
     def group
-    	@group = Group.find(:id)
-    	@users = User.joins(group_mems: :group).where(groups: :id)
+    	@group = Group.find_by_id params[:id]
+    	@users = User.joins(group_users: :group).where("groups.id = ?", params[:id])
     end
 
     def add_mem
-    	@mem = Group_mem.new(params)
+    	user = User.find_by(params[:email])
+    	if(user)
+    		@mem = GroupUser.new(params[:group], user)
+    		@mem.save
+    	end
+    	
+    	redirect_to admin_group_path(params[:group])
     end
 
     def kick_mem
     	@mem = Group.find(params)
     	@mem.destroy 
 
-    	redirect_to admin_group_path(params[:group_id])
+    	redirect_to admin_group_path(params[:group])
     end
 
     private
