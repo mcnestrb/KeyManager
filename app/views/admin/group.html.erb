@@ -1,0 +1,22 @@
+<h1><%= @group.name %></h1>
+<% if @users.count == 0 %>
+    <p>This group has no members</p>
+<% else %>
+    <ul>
+        <% @users.each do |user| %>
+            <li><%= user.email %>&nbsp;<%= link_to "Kick", kick_member_path(@group.id, user.id) %></li>
+        <% end %>
+    </ul>
+<% end %>
+
+<%= form_for :member, url: new_member_path do |f| %>
+    <p>
+        <%= f.label :email %><br>
+        <%= f.text_field :email %>
+    	<%= f.hidden_field_tag(:group_id, @group.id) %>
+	</p>
+
+    <p>
+        <%= f.submit %>
+    </p>
+<% end %>
